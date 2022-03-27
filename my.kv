@@ -1,0 +1,266 @@
+<Animator>
+
+	labeltextdir   : textdir
+	labeltextimg   : textimg
+	labelimgsource : imgsource
+	
+	navigbtnlabel  : navigbtn
+	animbtnlabel   : animbtn
+#	workframelabel : workframe
+#	durationlabel  : duration
+	animinfolabel  : animinfo
+	
+	canvas.before:
+		Color:
+			rgba: 0.5, 0.5, 0.5, 1.0    # Blue 
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+	Label: 		
+		id : textdir		    
+		text: "Dir = %s "%(app.currentdir)  
+		size : 400,30
+		multiline: False
+		color: 0,0,0,1
+		pos: 140,480
+		text_size: self.size
+		halign:"left"
+		valign:"middle" 
+		canvas.before:
+			Color:
+				rgba: 1, 1, 1, 1
+			Rectangle:
+				pos: self.pos
+				size: self.size
+	Label: 
+		id : textimg				    
+		text: "Img = %s "%(app.imgname)  
+		pos: 140,450
+		multiline: False
+		color: 0,0,0,1
+		size : 400,30
+		text_size: self.size
+		halign:"left"
+		valign:"middle"
+		canvas.before:
+			Color:
+				rgba: 1, 1, 1, 1
+			Rectangle:
+				pos: self.pos
+				size: self.size
+		
+############################################		
+############################## MODE SELECT 	
+############################################
+
+	Button:
+		id: navigbtn
+		text: 'Navigation Mode'
+		font_size: '30sp'
+		size: 300, 40
+		pos: 0,520
+		padding: 10, 0
+		on_press : app.SwitchMode(-1)
+		background_color : 'red'
+	
+		
+	Button:
+		id: animbtn
+		text: 'Animation Mode'
+		font_size: '30sp'
+		size: 300, 40
+		pos: 468,520
+		padding: 10, 0
+		on_press : app.SwitchMode(+1)
+		background_color : 'grey'
+
+############################################		
+############################# FRAMNE UP DOWN 	
+############################################
+
+	Button:
+		text: 'UP'
+		font_size: '15sp'
+		size: 50, 30
+		pos: 718,420
+		padding: 10, 0
+		on_press : app.MoveFrame(-1)
+
+	Button:
+		text: 'DOWN'
+		font_size: '15sp'
+		size: 50, 30
+		pos: 658,420
+		padding: 10, 0
+		on_press : app.MoveFrame(1)
+		
+############################################		
+########################### Play Stop Reset	
+############################################
+
+	Button:
+		text: 'P'
+		font_size: '15sp'
+		size: 30, 30
+		pos: 688,60
+		padding: 10, 0
+		on_press : app.PlayAnim()
+
+	Button:
+		text: 'S'
+		font_size: '15sp'
+		size: 30, 30
+		pos: 658,60
+		padding: 10, 0
+		on_press : app.StopAnim()
+
+	Button:
+		text: 'R'
+		font_size: '30sp'
+		size: 30, 30
+		pos: 728,60
+		padding: 10, 0
+		on_press : app.Reset()
+	
+	
+	Button:
+		text: '>'
+		font_size: '30sp'
+		size: 50, 30
+		pos: 718,00
+		padding: 10, 0
+		on_press : app.NextImg(1)
+		
+	
+	Button:
+		text: '<'
+		font_size: '30sp'
+		size: 50, 30
+		pos: 00,00
+		padding: 10, 0
+		on_press : app.NextImg(-1)
+	
+	Button:
+		text: 'next directory'
+		font_size: '15sp'
+		size: 130, 30
+		pos: 0,480
+		padding: 10, 0
+		on_press : app.NextDir(1)
+	Button:
+		text: 'previous directory'
+		font_size: '15sp'
+		size: 130, 30
+		pos: 0,450
+		padding: 10, 0
+		on_press : app.NextDir(-1)
+		
+	Button:
+		text: 'Insert Image'
+		font_size: '15sp'
+		size: 120, 30
+		pos: 658,480
+		padding: 10, 0
+		on_press : app.AddImg()
+	Button:
+		text: 'Remove Image'
+		font_size: '15sp'
+		size: 120, 30
+		pos: 658,450
+		padding: 10, 0
+		on_press : app.RemoveImg()
+		
+	Button:
+		pos : 348, 20
+		text : "OUT"
+		on_press : app.DumpAnim()
+		
+
+		
+	BoxLayout:
+		orientation: 'horizontal'
+		pos : app.size[0]//2-200,app.size[1]//2-150
+		size : 400, 300
+		canvas.before:
+			Color:
+				rgba: 1, 1, 1, 1.0    # Blue 
+			Rectangle:
+				pos: self.pos
+				size: self.size
+	
+		Image:
+			id:imgsource
+			source: app.currentimg
+			size: 900, 900
+			allow_stretch: True
+	
+#	#TextInput:
+#	#	id:duration
+#	#	text: str(app.drwf)
+#		pos: 698,350
+#		multiline : False
+#		size: 50,30
+#		on_text_validate: app.ChangeDuration()
+#	TextInput:
+#		id: workframe
+#		multiline : False
+#		text: str(app.workonframe)
+#		pos: 658,350
+#		size: 40,30
+#		on_text_validate: app.ChangeWorkFrame()
+		
+	ScrollView:
+		do_scroll_x: False
+		do_scroll_y: True
+		pos : 640, 100 
+		size : 100, 300
+		size_hint : 10,0
+		GridLayout:
+			size_hint_y: None
+			canvas.before:
+				Color:
+					rgba: 0.0, 0.0, 0.0, 1.0 
+			id:animinfo
+			size_hint_y: None
+			cols: 1
+			height: 100
+
+			row_force_default: True
+			row_default_height: dp(26)
+
+<Row>:
+    dr : ''
+    idx : '' 
+    Button: 
+    	text: root.idx
+    	disabled: True		
+    	width: 10
+    TextInput:
+        text: root.dr
+        multiline : False
+        on_text_validate: app.ChangeDuration(root.idx, self.text)
+     
+
+			
+<AnimPics>
+
+	BoxLayout:
+		orientation: 'horizontal'
+		pos : app.size[0]//2-200,app.size[1]//2-150
+		size : 400, 300
+		canvas.before:
+			Color:
+				rgba: 1, 1, 1, 1.0    # Blue 
+			Rectangle:
+				pos: self.pos
+				size: self.size
+	
+		Image:
+			id:imgsource
+			source: app.currentimg
+			size: 900, 900
+			allow_stretch: True
+			
+			
+			
